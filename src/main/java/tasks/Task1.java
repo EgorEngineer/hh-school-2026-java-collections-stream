@@ -2,9 +2,8 @@ package tasks;
 
 import common.Person;
 import common.PersonService;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 /*
 Задача 1
@@ -21,8 +20,14 @@ public class Task1 {
     this.personService = personService;
   }
 
+  // Асимптотика работы функции: по времени O(n*m), по памяти O(n+m)
   public List<Person> findOrderedPersons(List<Integer> personIds) {
     Set<Person> persons = personService.findPersons(personIds);
-    return Collections.emptyList();
+    return personIds.stream()
+        .flatMap(id -> persons.stream()
+            .filter(person -> person.id() == id)
+            .findFirst()
+            .stream())
+        .toList();
   }
 }
