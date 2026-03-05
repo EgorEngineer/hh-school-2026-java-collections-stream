@@ -37,7 +37,7 @@ public class Task9 {
     // такое решение убирает появление ненужных пробелов при null значениях
     return Stream.of(person.secondName(),person.firstName(),person.middleName())
             .filter(Objects::nonNull)
-            .collect(Collectors.joining(" ")).toString();
+            .collect(Collectors.joining(" "));
   }
 
   // словарь id персоны -> ее имя

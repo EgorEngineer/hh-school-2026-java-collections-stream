@@ -5,9 +5,7 @@ import common.PersonService;
 import common.PersonWithResumes;
 import common.Resume;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -27,10 +25,11 @@ public class Task8 {
     Set<Resume> resumes = personService.findResumes(persons.stream()
         .map(Person::id)
         .collect(Collectors.toSet()));
+    Map<Integer,Set<Resume>> personMap = resumes.stream()
+        .collect(Collectors.groupingBy(Resume::personId, Collectors.toSet()));
     return persons.stream()
-        .map(person -> new PersonWithResumes(person, resumes.stream()
-            .filter(resume -> resume.personId() == person.id())
-            .collect(Collectors.toSet())))
+        .map(person ->
+            new PersonWithResumes(person, personMap.getOrDefault(person.id(), Collections.emptySet())))
         .collect(Collectors.toSet());
   }
 }
